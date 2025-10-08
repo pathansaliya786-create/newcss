@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign in</title>
+  <style>
+    :root{
+      --bg:#f4f6f8;
+      --card:#ffffff;
+      --accent:#0095f6; /* Instagram-like blue-ish accent (generic) */
+      --muted:#6b7280;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#eef2f7 60%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      color:#0f172a;
+    }
+    .card{
+      width:100%;
+      max-width:420px;
+      background:var(--card);
+      border-radius:12px;
+      box-shadow:0 10px 30px rgba(15,23,42,0.06);
+      padding:28px;
+    }
+    header{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:0;color:var(--muted);font-size:14px}
+    form{display:grid;gap:12px}
+    label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
+    input[type="email"], input[type="password"]{
+      width:100%;
+      padding:12px 14px;
+      border-radius:8px;
+      border:1px solid #e6e9ee;
+      font-size:15px;
+      background:#fff;
+    }
+    input:focus{outline:none;box-shadow:0 0 0 4px rgba(0,149,246,0.08);border-color:var(--accent)}
+    .row{display:flex;justify-content:space-between;align-items:center}
+    .btn{
+      display:inline-block;
+      width:100%;
+      background:var(--accent);
+      color:white;
+      padding:12px;
+      border-radius:9px;
+      border:none;
+      font-weight:600;
+      cursor:pointer;
+      font-size:15px;
+    }
+    .btn:disabled{opacity:0.6;cursor:not-allowed}
+    .muted-link{color:var(--muted);font-size:13px;text-decoration:none}
+    .error{color:#c53030;font-size:13px;min-height:18px}
+    .secondary{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:center;
+      background:#fff;
+      color:#111;
+      border:1px solid #e6e9ee;
+      padding:10px;
+      border-radius:9px;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .oauth-btn{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:center;
+      background:#fff;
+      color:#111;
+      border:1px solid #e6e9ee;
+      padding:10px;
+      border-radius:9px;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .oauth-btn img{height:18px;width:18px;object-fit:contain}
+    .note{font-size:13px;color:var(--muted);text-align:center;margin-top:14px}
+    @media (max-width:420px){
+      .card{padding:20px}
+    }
+  </style>
+</head>
+<body>
+  <main class="card" role="main" aria-labelledby="signin-title">
+    <header>
+      <h1 id="signin-title">Sign in</h1>
+      <p class="lead">Access your account — secure and simple.</p>
+    </header>
+
+    <!-- OAuth (official) - Replace placeholders with your actual values -->
+    <div style="display:grid;gap:10px;margin-bottom:10px">
+      <a id="instagramOAuth" class="oauth-btn" href="#"
+         title="Continue with Instagram (official OAuth)">
+        <!-- generic camera icon SVG (not Instagram's logo) -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="5" stroke="#111" stroke-width="1.2"></rect>
+          <circle cx="12" cy="12" r="3.2" stroke="#111" stroke-width="1.2"></circle>
+          <circle cx="17.3" cy="6.7" r="0.9" fill="#111"></circle>
+        </svg>
+        Continue with Instagram
+      </a>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <hr style="flex:1;border:none;border-top:1px solid #eef2f7">
+        <small style="color:var(--muted)">or</small>
+        <hr style="flex:1;border:none;border-top:1px solid #eef2f7">
+      </div>
+    </div>
+
+    <!-- Standard email/password form -->
+    <form id="loginForm" novalidate>
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" inputmode="email" autocomplete="email" required aria-required="true" />
+        <div class="error" id="emailError" aria-live="polite"></div>
+      </div>
+
+      <div>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required minlength="8" aria-required="true" />
+        <div class="error" id="passwordError" aria-live="polite"></div>
+      </div>
+
+      <div class="row">
+        <label style="display:flex;align-items:center;font-size:14px">
+          <input id="remember" name="remember" type="checkbox" style="margin-right:8px" /> Remember me
+        </label>
+        <a class="muted-link" href="#" onclick="alert('Password reset placeholder'); return false;">Forgot password?</a>
+      </div>
+
+      <button type="submit" id="submitBtn" class="btn">Sign in</button>
+    </form>
+
+    <div class="note">Don't have an account? <a href="#" class="muted-link" onclick="alert('Sign up placeholder'); return false;">Create one</a></div>
+  </main>
+
+  <script>
+    // ---------- OAuth button behavior ----------
+    // If you want to use Instagram OAuth, replace CLIENT_ID and REDIRECT_URI with your app values.
+    // Scopes and endpoint vary by Instagram Basic Display / Instagram Graph API.
+    (function(){
+      const oauthLink = document.getElementById('instagramOAuth');
+
+      // Fill these values before deploying:
+      const CLIENT_ID = 'YOUR_CLIENT_ID';
+      const REDIRECT_URI = 'YOUR_REDIRECT_URI'; // e.g. https://yourapp.example.com/auth/instagram/callback
+      const SCOPE = 'user_profile'; // adjust as needed
+      const AUTH_ENDPOINT = 'https://api.instagram.com/oauth/authorize';
+
+      // If placeholders are not set, clicking will show an informative message instead of redirecting.
+      oauthLink.addEventListener('click', function(e){
+        if (CLIENT_ID === 'YOUR_CLIENT_ID' || REDIRECT_URI === 'YOUR_REDIRECT_URI') {
+          e.preventDefault();
+          alert('OAuth placeholders not set. Replace CLIENT_ID and REDIRECT_URI in the page script with your app values.');
+          return;
+        }
+        // Construct the official OAuth URL
+        const params = new URLSearchParams({
+          client_id: CLIENT_ID,
+          redirect_uri: REDIRECT_URI,
+          scope: SCOPE,
+          response_type: 'code'
+        });
+        // Redirect to Instagram's official authorize endpoint
+        window.location.href = AUTH_ENDPOINT + '?' + params.toString();
+      });
+    })();
+
+    // ---------- Simple client-side validation & example POST ----------
+    (function(){
+      const form = document.getElementById('loginForm');
+      const email = document.getElementById('email');
+      const password = document.getElementById('password');
+      const submitBtn = document.getElementById('submitBtn');
+      const emailError = document.getElementById('emailError');
+      const passwordError = document.getElementById('passwordError');
+
+      function validateEmail() {
+        const v = email.value.trim();
+        if (!v) return "Email is required.";
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(v) ? "" : "Please enter a valid email address.";
+      }
+      function validatePassword(){
+        const v = password.value;
+        if (!v) return "Password is required.";
+        if (v.length < 8) return "Password must be at least 8 characters.";
+        return "";
+      }
+
+      email.addEventListener('input', ()=> emailError.textContent = validateEmail());
+      password.addEventListener('input', ()=> passwordError.textContent = validatePassword());
+
+      form.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        emailError.textContent = validateEmail();
+        passwordError.textContent = validatePassword();
+        if (emailError.textContent || passwordError.textContent) return;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Signing in...';
+
+        // Example fetch to your server. Replace '/api/login' with your own endpoint.
+        // IMPORTANT: Do NOT send credentials to a third-party service. Always use your own server over HTTPS.
+        try {
+          const res = await fetch('/api/login', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({
+              email: email.value.trim(),
+              password: password.value
+            }),
+            credentials: 'include'
+          });
+          if (!res.ok) {
+            const payload = await res.json().catch(()=>({error:'Server error'}));
+            alert(payload.error || 'Login failed');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Sign in';
+            return;
+          }
+          const data = await res.json();
+          window.location.href = data.redirect || '/dashboard';
+        } catch (err) {
+          console.error(err);
+          alert('Network error — try again.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Sign in';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
