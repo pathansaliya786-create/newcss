@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Enhanced Profile Card</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 20px;
+  }
+  .profile-card {
+    background: white;
+    width: 380px;
+    border-radius: 15px;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: #2c3e50;
+    position: relative;
+  }
+  .profile-photo {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid #3498db;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.6);
+  }
+  h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 700;
+  }
+  h3 {
+    margin-top: 0.2rem;
+    font-weight: 500;
+    color: #555;
+  }
+  p {
+    font-size: 1rem;
+    margin-top: 1rem;
+    line-height: 1.5;
+    color: #444;
+  }
+  .contact-info {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  .contact-info a {
+    color: #3498db;
+    text-decoration: none;
+    margin: 0 8px;
+  }
+  .social-links {
+    margin-top: 1.5rem;
+  }
+  .social-links a {
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 1.4rem;
+    color: #3498db;
+    transition: color 0.3s;
+  }
+  .social-links a:hover {
+    color: #1d6fa5;
+  }
+  button {
+    margin-top: 2rem;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 30px;
+    background-color: #3498db;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 6px 12px rgba(52, 152, 219, 0.5);
+    transition: background-color 0.3s;
+  }
+  button:hover {
+    background-color: #1d6fa5;
+  }
+</style>
+
+<!-- Font Awesome CDN for social icons -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+</head>
+<body>
+
+<div class="profile-card" id="profile-card">
+  <img
+    src="https://i.pinimg.com/236x/fe/08/58/fe08583f13ba62a6bcb043f9f0cd3a24.jpg"
+    alt="Profile Photo"
+    class="profile-photo"
+  />
+  <h1>PATHAN SALIYA</h1>
+  <h3>---SECOND YEAR COMPUTER DIPLOMA STUDENT---</h3>
+  <p>
+    "Proficient in designing, training, and deploying machine learning models to solve real-world problems using Python, TensorFlow, and scikit-learn."
+
+  <div class="contact-info">
+    <div>
+      <strong>Email:</strong> <a href="saliyapathan123@gmail.com">saliyapathan123@gmail.com</a>
+    </div>
+    <div>
+      <strong>Phone:</strong> <a href="tel:+919908675432">+91 9908675432</a>
+    </div>
+  </div>
+
+  <div class="social-links" aria-label="social media links">
+    
+    <a href="https://www.snapchat.com/add/yourusername" target="_blank" rel="noopener noreferrer">
+  <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c4/Snapchat_logo.svg/1200px-Snapchat_logo.svg.png" alt="Snapchat Logo" width="25" />
+</a>
+
+    <a href="https://www.instagram.com/yourusername" target="_blank" rel="noopener noreferrer">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram Logo" width="25" />
+</a>
+
+    <a href="https://twitter.com/janedoe" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+      <i class="fab fa-twitter"></i>
+    </a>
+  </div>
+
+  <button onclick="window.print()">Download Profile (Print)</button>
+</div>
+
+</body>
+</html>
+
+
